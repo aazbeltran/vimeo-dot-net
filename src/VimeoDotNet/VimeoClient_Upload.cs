@@ -9,6 +9,7 @@ using VimeoDotNet.Exceptions;
 using VimeoDotNet.Models;
 using VimeoDotNet.Net;
 using VimeoDotNet.Parameters;
+using System.Text.RegularExpressions;
 
 namespace VimeoDotNet
 {
@@ -318,6 +319,44 @@ namespace VimeoDotNet
                 }
 
                 throw new VimeoUploadException("Error marking file upload as complete.", uploadRequest, ex);
+            }
+        }
+
+        /// <summary>
+        /// Complete upload file form
+        /// </summary>
+        /// <param name="ticket">Ticket</param>
+        /// <returns></returns>
+        public async Task<int> CompleteFileTicketAsync(UploadTicket ticket)
+        {
+            ThrowIfUnauthorized();
+
+            try
+            {
+                var request = GenerateCompleteUploadRequest(ticket);
+                var response = await request.ExecuteRequestAsync();
+                //CheckStatusCodeError(uploadRequest, response, "Error marking file upload as complete.");
+                /*
+                if (response.Headers.Location != null)
+                {
+                    uploadRequest.ClipUri = response.Headers.Location.ToString();
+                }
+                */
+                System.Collections.Generic.IEnumerable<string> i;
+
+                string l = response.Headers.TryGetValues("Location", out i)? i.First(): "";
+                Regex word = new Regex(@"([0-9]*)$");
+                Match m = word.Match(l);
+                return int.Parse(m.Value);
+            }
+            catch (Exception ex)
+            {
+                if (ex is VimeoApiException)
+                {
+                    throw;
+                }
+                return -1;
+                //throw new VimeoUploadException("Error marking file upload as complete.", uploadRequest, ex);
             }
         }
 

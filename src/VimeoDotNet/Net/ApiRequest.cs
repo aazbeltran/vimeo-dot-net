@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -147,7 +148,7 @@ namespace VimeoDotNet.Net
         /// <inheritdoc />
         public async Task<IApiResponse> ExecuteRequestAsync()
         {
-            var response = await Client.SendAsync(PrepareRequest());
+            var response = Client.SendAsync(PrepareRequest()).Result;
             var text = await response.Content.ReadAsStringAsync();
             return new ApiResponse(response.StatusCode, response.Headers, text);
         }
@@ -156,7 +157,7 @@ namespace VimeoDotNet.Net
         public async Task<IApiResponse<T>> ExecuteRequestAsync<T>() where T : new()
         {
             var request = PrepareRequest();
-            var response = await Client.SendAsync(request);
+            var response = Client.SendAsync(request).Result;
             var text = await response.Content.ReadAsStringAsync();
             return new ApiResponse<T>(response.StatusCode, response.Headers, text,
                 JsonConvert.DeserializeObject<T>(text, DateFormatSettings));

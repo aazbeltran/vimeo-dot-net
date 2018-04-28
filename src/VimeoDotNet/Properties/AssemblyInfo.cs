@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("VimeoDotNet")]
 [assembly: AssemblyCompany("VimeoDotNet")]
 [assembly: AssemblyProduct("VimeoDotNet")]
-[assembly: AssemblyCopyright("Copyright © 2014-2016, Stephen Commisso, Mikhael Filippov")]
-[assembly: AssemblyVersion("1.0.0")]
-[assembly: AssemblyFileVersion("1.0.0")]
+[assembly: AssemblyCopyright("Copyright © 2014-2018, Stephen Commisso, Mikhael Filippov")]
+[assembly: AssemblyVersion("1.1.0")]
+[assembly: AssemblyFileVersion("1.1.0")]
 [assembly: InternalsVisibleTo("VimeoDotNet.Tests")]
 
 [assembly: AssemblyDescription("Core library for accessing the Vimeo REST API")]
